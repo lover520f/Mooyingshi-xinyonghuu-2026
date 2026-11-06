@@ -140,5 +140,54 @@
         <item>Fullscreen</item>
         <item>Standard</item>
     </string-array>
+    <string name="local_source_title">Local Source Folder</string>
+    <string name="local_source_desc">Scan folders on this device for source files, merge them into one local source config, and load it as the VOD config.</string>
+    <string name="local_source_enable">Enable local source</string>
+    <string name="local_source_auto">Auto write-back when sources change</string>
+    <string name="local_source_no_dir">No folder set</string>
+    <string name="local_source_disabled">Disabled</string>
+    <string name="local_source_pending">%1$d folders, pending scan</string>
+    <string name="local_source_summary_format">Sites %1$d · Live %2$d · Files %3$d · Hits %4$d · Skipped %5$d · %6$dms%7$s</string>
+    <string name="local_source_truncated"> (truncated)</string>
+    <string name="local_source_no_types">No recognizable types found</string>
+    <string name="local_source_more_types">… (%1$d types in total)</string>
+    <string name="local_source_all_types">All (none checked)</string>
+    <string name="local_source_diagnosis_format">%1$d scan folders · %2$d files · %3$d hits · Types found: %4$s · Checked types: %5$s</string>
+    <string name="local_source_dir_required">Set a local source folder first</string>
+    <string name="local_source_dir_invalid">Folder does not exist or is not readable</string>
+    <string name="local_source_permission_required">Storage permission is required</string>
+    <string name="local_source_scanning">Scanning…</string>
+    <string name="local_source_done">%1$s</string>
+    <string name="local_source_empty">No sources found: %1$s</string>
+    <string name="local_source_write_blocked">This is your own config, the app did not overwrite it: %1$s</string>
+    <string name="local_source_settings_title">Local Source Settings</string>
+    <string name="local_source_settings_save_load">Save and load</string>
+    <string name="local_source_settings_hint">Scan the folders below for source files and merge them into one local source config, then load it as the VOD config.</string>
+    <string name="local_source_settings_out_name">Output file name</string>
+    <string name="local_source_settings_out_name_hint">Generated into the first scan folder, e.g. 墨本地源.json</string>
+    <string name="local_source_settings_dirs">Folders</string>
+    <string name="local_source_settings_dir_pick">Pick folder</string>
+    <string name="local_source_dir_hint">Enter a folder path, e.g. /sdcard/源</string>
+    <string name="local_source_settings_dir_add">Add</string>
+    <string name="local_source_settings_extensions">Scan extensions</string>
+    <string name="local_source_settings_ext_all">All</string>
+    <string name="local_source_settings_blocked">Skipped folders</string>
+    <string name="local_source_settings_replace">Replace the template sources with scanned sources</string>
+    <string name="local_source_settings_extra">Extras</string>
+    <string name="local_source_settings_spider">Spider jar</string>
+    <string name="local_source_settings_spider_pick">Pick</string>
+    <string name="local_source_settings_clear">Clear</string>
+    <string name="local_source_settings_live_url">Live URL</string>
+    <string name="local_source_settings_base64">Auto-decode Base64-encoded rules</string>
+    <string name="local_source_settings_parses">Parses</string>
+    <string name="local_source_settings_parses_count">Parses (%1$d)</string>
+    <string name="local_source_spider_auto">Not set (auto-detect)</string>
+    <string name="local_source_remove">Remove</string>
+    <string name="local_source_parses_title">Parses</string>
+    <string name="local_source_parses_name">Name</string>
+    <string name="local_source_parses_url">URL</string>
+    <string name="local_source_parses_add">Add parse</string>
+    <string name="local_source_candidates_scanning">Counting candidate files…</string>
+    <string name="local_source_candidates_format">Candidate files: %1$d in total</string>
 
 </resources>

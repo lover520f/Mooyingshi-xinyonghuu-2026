@@ -41,7 +41,9 @@ import com.fongmi.android.tv.utils.AppVersion;
 import com.fongmi.android.tv.cache.CacheCenter;
 import com.fongmi.android.tv.cache.CachePolicyStore;
 import com.fongmi.android.tv.ui.dialog.CacheManagementDialog;
+import com.fongmi.android.tv.ui.dialog.LocalSourceDialog;
 import com.fongmi.android.tv.utils.FileUtil;
+import com.fongmi.android.tv.utils.LocalSource;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.PermissionUtil;
 import com.github.catvod.bean.Doh;
@@ -91,9 +93,15 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.vodUrl.setText(VodConfig.getDesc());
         mBinding.liveUrl.setText(LiveConfig.getDesc());
         setWallText();
+        setLocalSourceText();
         mBinding.versionText.setText(AppVersion.fullName());
         setOtherText();
         setCacheText();
+    }
+
+    private void setLocalSourceText() {
+        if (mBinding == null) return;
+        mBinding.localSourceText.setText(LocalSource.summary());
     }
 
     private void setOtherText() {
@@ -126,6 +134,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
     @Override
     protected void initEvent() {
         mBinding.vod.setOnClickListener(this::onVod);
+        mBinding.localSource.setOnClickListener(v -> LocalSourceDialog.create().onSaved(this::setLocalSourceText).show(this));
         mBinding.doh.setOnClickListener(this::setDoh);
         mBinding.live.setOnClickListener(this::onLive);
         mBinding.wall.setOnClickListener(this::onWall);
@@ -422,6 +431,7 @@ public class SettingFragment extends BaseFragment implements ConfigListener, Sit
         mBinding.vodUrl.setText(VodConfig.getDesc());
         mBinding.liveUrl.setText(LiveConfig.getDesc());
         setWallText();
+        setLocalSourceText();
     }
 
     /**

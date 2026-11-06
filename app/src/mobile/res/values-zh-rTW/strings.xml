@@ -140,5 +140,54 @@
         <item>全屏</item>
         <item>標準</item>
     </string-array>
+    <string name="local_source_title">本地源資料夾</string>
+    <string name="local_source_desc">掃描手機裡的資料夾，把裡面的源檔案合併成一份本地源設定，再當作點播設定載入。</string>
+    <string name="local_source_enable">啟用本地源</string>
+    <string name="local_source_auto">源有變化時自動同步回寫</string>
+    <string name="local_source_no_dir">未設定資料夾</string>
+    <string name="local_source_disabled">未啟用</string>
+    <string name="local_source_pending">共 %1$d 個目錄，待掃描</string>
+    <string name="local_source_summary_format">站點 %1$d · 直播 %2$d · 檔案 %3$d · 命中 %4$d · 跳過 %5$d · %6$dms%7$s</string>
+    <string name="local_source_truncated">（已截斷）</string>
+    <string name="local_source_no_types">未發現可識別類型</string>
+    <string name="local_source_more_types">…(共 %1$d 種)</string>
+    <string name="local_source_all_types">全部（未勾選）</string>
+    <string name="local_source_diagnosis_format">掃描目錄 %1$d 個 · 檔案 %2$d · 命中 %3$d · 目錄中實際類型：%4$s · 當前勾選類型：%5$s</string>
+    <string name="local_source_dir_required">需要先設定本地源資料夾</string>
+    <string name="local_source_dir_invalid">資料夾不存在或不可讀</string>
+    <string name="local_source_permission_required">需要儲存權限</string>
+    <string name="local_source_scanning">正在掃描…</string>
+    <string name="local_source_done">%1$s</string>
+    <string name="local_source_empty">未發現設定源：%1$s</string>
+    <string name="local_source_write_blocked">這是你自己的設定，App 沒有改寫它：%1$s</string>
+    <string name="local_source_settings_title">本地源設定</string>
+    <string name="local_source_settings_save_load">儲存並載入</string>
+    <string name="local_source_settings_hint">掃描下面的資料夾，把裡面的源檔案合併成一份本地源設定，再當作點播設定載入。</string>
+    <string name="local_source_settings_out_name">輸出檔案名稱</string>
+    <string name="local_source_settings_out_name_hint">產生到第一個掃描目錄下，比如 墨本地源.json</string>
+    <string name="local_source_settings_dirs">資料夾</string>
+    <string name="local_source_settings_dir_pick">選擇資料夾</string>
+    <string name="local_source_dir_hint">輸入資料夾路徑，比如 /sdcard/源</string>
+    <string name="local_source_settings_dir_add">新增</string>
+    <string name="local_source_settings_extensions">掃描副檔名</string>
+    <string name="local_source_settings_ext_all">全部</string>
+    <string name="local_source_settings_blocked">跳過的資料夾</string>
+    <string name="local_source_settings_replace">用掃描到的源替換範本裡的源</string>
+    <string name="local_source_settings_extra">附加</string>
+    <string name="local_source_settings_spider">蜘蛛 jar</string>
+    <string name="local_source_settings_spider_pick">選擇</string>
+    <string name="local_source_settings_clear">清除</string>
+    <string name="local_source_settings_live_url">直播位址</string>
+    <string name="local_source_settings_base64">Base64 編碼的規則自動解碼</string>
+    <string name="local_source_settings_parses">解析介面</string>
+    <string name="local_source_settings_parses_count">解析介面（%1$d）</string>
+    <string name="local_source_spider_auto">未設定（自動尋找）</string>
+    <string name="local_source_remove">移除</string>
+    <string name="local_source_parses_title">解析介面</string>
+    <string name="local_source_parses_name">名字</string>
+    <string name="local_source_parses_url">位址</string>
+    <string name="local_source_parses_add">新增解析</string>
+    <string name="local_source_candidates_scanning">正在統計候選檔案…</string>
+    <string name="local_source_candidates_format">候選檔案：共 %1$d 個</string>
 
 </resources>

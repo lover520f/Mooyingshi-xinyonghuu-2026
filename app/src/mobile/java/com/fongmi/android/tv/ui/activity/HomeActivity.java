@@ -60,6 +60,7 @@ import com.fongmi.android.tv.ui.fragment.SettingSubtitleFragment;
 import com.fongmi.android.tv.ui.fragment.VodFragment;
 import com.fongmi.android.tv.utils.CrashRestartMode;
 import com.fongmi.android.tv.utils.FileChooser;
+import com.fongmi.android.tv.utils.LocalSource;
 import com.fongmi.android.tv.utils.MobileWindow;
 import com.fongmi.android.tv.utils.Notify;
 import com.fongmi.android.tv.utils.PermissionUtil;
@@ -130,6 +131,13 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
         initFragment(savedInstanceState);
         if (savedInstanceState == null && getIntent().hasExtra(EXTRA_NAV_POSITION)) checkAction(getIntent());
         initConfig();
+        refreshLocalSource();
+    }
+
+    /** 本地源开了自动回写：启动后后台重扫一遍，有变化就重写生成文件（不重新加载配置）。 */
+    private void refreshLocalSource() {
+        if (!LocalSource.isEnabled() || !LocalSource.isAuto()) return;
+        new Thread(LocalSource::refresh, "local-source-refresh").start();
     }
 
     @Override
