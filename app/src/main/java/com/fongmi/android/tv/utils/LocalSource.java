@@ -130,7 +130,7 @@ public class LocalSource {
         if (sites != null) return new ArrayList<>(sites);
         boolean showSecret = isShowSecret();
         List<Site> result = new ArrayList<>();
-        JsonArray array = Json.safeListElement(getSettings(), "sites");
+        List<JsonElement> array = Json.safeListElement(getSettings(), "sites");
         for (JsonElement element : array) {
             if (!element.isJsonObject()) continue;
             Site site = siteFrom(element.getAsJsonObject());
