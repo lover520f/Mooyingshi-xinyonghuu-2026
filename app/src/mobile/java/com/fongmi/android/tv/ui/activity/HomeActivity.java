@@ -39,7 +39,6 @@ import com.fongmi.android.tv.glass.GlassNavItem;
 import com.fongmi.android.tv.glass.GlassNavState;
 import com.fongmi.android.tv.impl.Callback;
 import com.fongmi.android.tv.lab.LabActivity;
-import com.fongmi.android.tv.lab.LabConfig;
 import com.fongmi.android.tv.player.Source;
 import com.fongmi.android.tv.receiver.ShortcutReceiver;
 import com.fongmi.android.tv.server.Server;
@@ -136,8 +135,7 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     protected void onResume() {
         super.onResume();
-        if (mBinding.navigation.getMenu().findItem(R.id.lab).isVisible() != LabConfig.get().getNavEntry()
-                || mBinding.navigation.getMenu().findItem(R.id.following).isVisible() != FollowingSettings.isEnabled()
+        if (mBinding.navigation.getMenu().findItem(R.id.following).isVisible() != FollowingSettings.isEnabled()
                 || mBinding.navigation.getMenu().findItem(R.id.drama).isVisible() != (DramaSites.hasDramaSites() && Setting.isShortDramaCollected())) setNavigation();
         updateFollowingBadge();
     }
@@ -273,7 +271,6 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     private void setNavigation() {
         mBinding.navigation.getMenu().findItem(R.id.vod).setVisible(true);
         mBinding.navigation.getMenu().findItem(R.id.setting).setVisible(true);
-        mBinding.navigation.getMenu().findItem(R.id.lab).setVisible(LabConfig.get().getNavEntry());
         mBinding.navigation.getMenu().findItem(R.id.local_source).setVisible(true);
         mBinding.navigation.getMenu().findItem(R.id.drama).setVisible(DramaSites.hasDramaSites() && Setting.isShortDramaCollected());
         mBinding.navigation.getMenu().findItem(R.id.live).setVisible(LiveConfig.hasUrl());
@@ -375,7 +372,6 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
         addGlassItem(items, R.id.live, R.drawable.ic_nav_live, R.string.nav_live, true);
         addGlassItem(items, R.id.drama, R.drawable.ic_nav_drama, R.string.nav_drama, false);
         addGlassItem(items, R.id.following, R.drawable.ic_nav_following, R.string.nav_following, false);
-        addGlassItem(items, R.id.lab, R.drawable.ic_nav_lab, R.string.app_lab, false);
         addGlassItem(items, R.id.local_source, R.drawable.ic_nav_local, R.string.local_source, false);
         addGlassItem(items, R.id.setting, R.drawable.ic_nav_setting, R.string.nav_setting, false);
         glassState.setItems(items);
