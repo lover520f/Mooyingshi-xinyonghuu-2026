@@ -155,6 +155,9 @@ fun FloatingNavBar(
     val actionSlot = actionItem?.let { NavMetrics.actionSlotFor(tabsCount) }
     val slotCount = tabsCount + if (actionItem != null) 1 else 0
     val isBlurEnabled = config.navbarEnabled
+    // The tab controls' own glass (the tabs layer backdrop, its press highlight and
+    // press scale) follows the separate glass-controls switch, not the bar switch.
+    val isControlsGlassEnabled = config.controlsEnabled
     val isHorizontal = axis == NavAxis.Horizontal
 
     val containerColor = surfaceColor.copy(
@@ -378,7 +381,7 @@ fun FloatingNavBar(
 
         CompositionLocalProvider(
             LocalNavTabScale provides {
-                if (isBlurEnabled) {
+                if (isControlsGlassEnabled) {
                     lerp(1f, 1.2f, dampedDragAnimation.pressProgress)
                 } else {
                     1f
@@ -396,7 +399,7 @@ fun FloatingNavBar(
                         backdrop = backdrop,
                         shape = { Capsule() },
                         effects = {
-                            if (isBlurEnabled) {
+                            if (isControlsGlassEnabled) {
                                 val progress = dampedDragAnimation.pressProgress
                                 colorControls(
                                     brightness = config.contentBrightness,
@@ -412,7 +415,7 @@ fun FloatingNavBar(
                         },
                         highlight = {
                             val progress = dampedDragAnimation.pressProgress
-                            Highlight.Default.copy(alpha = if (isBlurEnabled) progress else 0f)
+                            Highlight.Default.copy(alpha = if (isControlsGlassEnabled) progress else 0f)
                         },
                         onDrawSurface = { drawRect(containerColor) }
                     )

@@ -260,6 +260,8 @@ public class SettingPersonalFragment extends BaseFragment {
     private void setLiquidGlass(View view) {
         Setting.putLiquidGlass(!Setting.isLiquidGlass());
         ConfigEvent.common();
+        // 开关现在同时管底栏玻璃和系统控件玻璃：控件玻璃走主题 token，改完要全屏重建才生效。
+        RefreshEvent.theme();
         setText();
     }
 
