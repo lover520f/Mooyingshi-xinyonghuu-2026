@@ -412,6 +412,15 @@ public class Setting {
         Prefers.put("liquid_glass", enabled);
     }
 
+    /** 液态玻璃控件总开关：与液态玻璃底栏共用同一套模糊/透光参数，默认开。 */
+    public static boolean isGlassControls() {
+        return Prefers.getBoolean("liquid_glass_controls", true);
+    }
+
+    public static void putGlassControls(boolean enabled) {
+        Prefers.put("liquid_glass_controls", enabled);
+    }
+
     public static boolean isShortDramaCollected() {
         return Prefers.getBoolean("short_drama_collected", false);
     }

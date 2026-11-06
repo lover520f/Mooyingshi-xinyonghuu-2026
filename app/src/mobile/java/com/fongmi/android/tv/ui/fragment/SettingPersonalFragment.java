@@ -92,6 +92,7 @@ public class SettingPersonalFragment extends BaseFragment {
         mBinding.appBranding.setOnClickListener(this::startAppBranding);
         mBinding.touchOptimization.setOnClickListener(this::setTouchOptimization);
         mBinding.liquidGlass.setOnClickListener(this::setLiquidGlass);
+        mBinding.glassControls.setOnClickListener(this::setGlassControls);
         mBinding.dramaCollected.setOnClickListener(this::setShortDramaCollected);
         mBinding.glassBlur.setOnClickListener(this::setGlassBlur);
         mBinding.glassDistortion.setOnClickListener(this::setGlassDistortion);
@@ -118,6 +119,7 @@ public class SettingPersonalFragment extends BaseFragment {
         mBinding.appBrandingText.setText(AppBranding.getSummary(requireContext()));
         mBinding.touchOptimizationText.setText(getSwitch(Setting.isTouchOptimized()));
         mBinding.liquidGlassText.setText(getSwitch(Setting.isLiquidGlass()));
+        mBinding.glassControlsText.setText(getSwitch(Setting.isGlassControls()));
         mBinding.dramaCollectedText.setText(getSwitch(Setting.isShortDramaCollected()));
         mBinding.glassBlurText.setText(String.valueOf(Setting.getGlassBlur()));
         mBinding.glassDistortionText.setText(String.valueOf(Setting.getGlassDistortion()));
@@ -260,6 +262,14 @@ public class SettingPersonalFragment extends BaseFragment {
     private void setLiquidGlass(View view) {
         Setting.putLiquidGlass(!Setting.isLiquidGlass());
         ConfigEvent.common();
+        setText();
+    }
+
+    private void setGlassControls(View view) {
+        Setting.putGlassControls(!Setting.isGlassControls());
+        ConfigEvent.common();
+        // 控件玻璃走主题 token：与改主题一样，全屏重建后新 token 才生效。
+        RefreshEvent.theme();
         setText();
     }
 

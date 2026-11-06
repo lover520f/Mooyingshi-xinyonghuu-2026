@@ -894,6 +894,7 @@
     <string name="setting_incognito">Incognito mode</string>
     <string name="setting_touch_optimization">Touch optimization</string>
     <string name="setting_liquid_glass">Liquid glass bottom bar</string>
+    <string name="setting_glass_controls">Liquid glass controls</string>
     <string name="setting_short_drama_collected">Short drama mode</string>
     <string name="setting_glass_blur">Blur effect</string>
     <string name="setting_glass_distortion">Distortion effect</string>

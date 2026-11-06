@@ -87,6 +87,7 @@ public class SettingPersonalActivity extends BaseActivity {
         mBinding.appBranding.setOnClickListener(this::startAppBranding);
         mBinding.resetApp.setOnClickListener(this::showResetAppDialog);
         mBinding.touchOptimization.setOnClickListener(this::setTouchOptimization);
+        mBinding.glassControls.setOnClickListener(this::setGlassControls);
     }
 
     @Override
@@ -117,6 +118,7 @@ public class SettingPersonalActivity extends BaseActivity {
         // mBinding.searchColumnText.setText(getSearchColumnText()); // 在搜索页面切换更方便
         mBinding.appBrandingText.setText(AppBranding.getSummary(this));
         mBinding.touchOptimizationText.setText(getSwitch(Setting.isTouchOptimized()));
+        mBinding.glassControlsText.setText(getSwitch(Setting.isGlassControls()));
     }
 
     private String getSearchColumnText() {
@@ -267,6 +269,13 @@ public class SettingPersonalActivity extends BaseActivity {
         Setting.putTouchOptimized(enabled);
         mBinding.touchOptimizationText.setText(getSwitch(enabled));
         TouchOptimizationHelper.sync(getWindow().getDecorView());
+    }
+
+    private void setGlassControls(View view) {
+        Setting.putGlassControls(!Setting.isGlassControls());
+        // 控件玻璃走主题 token：与改主题一样，全屏重建后新 token 才生效。
+        RefreshEvent.theme();
+        setText();
     }
 
     private void resetApp() {

@@ -890,6 +890,7 @@
     <string name="setting_incognito">无痕模式</string>
     <string name="setting_touch_optimization">触屏优化</string>
     <string name="setting_liquid_glass">液态玻璃底栏</string>
+    <string name="setting_glass_controls">液态玻璃控件</string>
     <string name="setting_short_drama_collected">短剧模式</string>
     <string name="setting_glass_blur">模糊效果</string>
     <string name="setting_glass_distortion">扭曲效果</string>

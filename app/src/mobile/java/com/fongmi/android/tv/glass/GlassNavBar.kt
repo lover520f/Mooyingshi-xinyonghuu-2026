@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.fongmi.android.tv.setting.Setting
 import com.kyant.backdrop.backdrops.rememberCanvasBackdrop
 
 /**
@@ -209,9 +210,11 @@ fun GlassNavBarContent(state: GlassNavState) {
     // Effect parameters come from the user's settings (synced into the state
     // by HomeActivity); defaults match AVBox's LiquidGlassState. The bar only
     // exists when the liquid glass toggle is on, so navbarEnabled is true.
+    // controlsEnabled follows the separate glass-controls switch: it gates the
+    // tab controls' own glass treatment inside the bar.
     val config = LiquidGlassConfig(
         navbarEnabled = true,
-        controlsEnabled = true,
+        controlsEnabled = Setting.isGlassControls(),
         blurDp = state.glassBlurDp,
         distortionDp = state.glassDistortionDp,
         translucency = state.glassTranslucency,
