@@ -128,6 +128,9 @@ public class LocalSource {
     /** 读出本地源站点列表（api/ext 按当前本机服务端口换成本机地址；密源未开开关时过滤掉）。 */
     public static synchronized List<Site> getSites() {
         if (sites != null) return new ArrayList<>(sites);
+        // 旧版扫进来的 .py 条目 api 是 csp_<文件名>，走 JarLoader 读不出数据：
+        // 首次加载时把它改回文件地址（老条目不用重扫也能好）。
+        migrateStalePyApi();
         boolean showSecret = isShowSecret();
         List<Site> result = new ArrayList<>();
         List<JsonElement> array = Json.safeListElement(getSettings(), "sites");
@@ -260,6 +263,13 @@ public class LocalSource {
                 String key = site.getKey();
                 Site old = byKey.get(key);
                 if (old != null && old.getApi().equals(site.getApi())) continue;
+                if (old != null && isStaleCspApi(old.getApi())) {
+                    // 旧条目是坏的 csp_ 写法：直接刷新为新解析的结果，不产生 _1 副本。
+                    site.setKey(key);
+                    byKey.put(key, site);
+                    added++;
+                    continue;
+                }
                 int suffix = 1;
                 while (byKey.containsKey(key)) key = site.getKey() + "_" + (suffix++);
                 site.setKey(key);
@@ -269,6 +279,72 @@ public class LocalSource {
         }
         if (added > 0) saveSites(new ArrayList<>(byKey.values()));
         return added;
+    }
+
+    /** 真的 Jar 蜘蛛类（xbpq/xyq/wv.js 用的），不是坏的 csp_ 写法，别动。 */
+    private static boolean isKnownCspApi(String api) {
+        return "csp_XYQHiker".equals(api) || "csp_WvSpider".equals(api) || "csp_XBPQ".equals(api) || "csp_FileSpider".equals(api);
+    }
+
+    /** 坏的 csp_ 写法：csp_ 开头又不是真的 Jar 蜘蛛类（旧版 .py 扫进来就是这个）。 */
+    private static boolean isStaleCspApi(String api) {
+        return api != null && api.startsWith("csp_") && !isKnownCspApi(api);
+    }
+
+    /** 修旧版扫进来的 .py 坏条目：api 是 csp_<文件名> 的改回文件地址，ext 清掉。 */
+    private static void migrateStalePyApi() {
+        List<Site> raw = getSitesRaw();
+        if (raw.isEmpty()) return;
+        boolean changed = false;
+        for (Site site : raw) {
+            if (!isStaleCspApi(site.getApi())) continue;
+            String pyUrl = toFileUrl(site.getExt());
+            // ext 必须是 .py 文件地址才算数，别把别的后缀文件当成蜘蛛。
+            if (pyUrl != null && !pyUrl.toLowerCase(Locale.ROOT).endsWith(".py")) pyUrl = null;
+            if (pyUrl == null) {
+                String scanDir = getScanDir();
+                File root = TextUtils.isEmpty(scanDir) ? null : new File(scanDir);
+                File file = findPyFile(root, site.getKey() + ".py");
+                if (file != null) pyUrl = fileUrl(file);
+            }
+            if (pyUrl == null) continue;
+            site.setApi(pyUrl);
+            site.setExt("");
+            changed = true;
+        }
+        if (changed) {
+            saveSites(raw);
+            // saveSites 会把没换地址的原始列表写进缓存，这里必须清掉，
+            // 后面 getSites() 才重新读盘换成本机地址。
+            sites = null;
+        }
+    }
+
+    /** file:// 地址原样用；本机地址 http://127.0.0.1:端口/file/路径 还原成 file:// 路径；其余返回 null。 */
+    private static String toFileUrl(String url) {
+        if (url == null) return null;
+        if (url.startsWith("file://")) return url;
+        int i = url.indexOf("/file/");
+        if (url.startsWith("http://127.0.0.1:") && i > 0) return "file://" + url.substring(i + 6);
+        return null;
+    }
+
+    /** 在扫描目录下递归找指定文件名的 .py（跳过屏蔽目录）。 */
+    private static File findPyFile(File dir, String name) {
+        if (dir == null || !dir.isDirectory()) return null;
+        File[] children = dir.listFiles();
+        if (children == null) return null;
+        for (File child : children) {
+            if (child.isDirectory()) {
+                if (!BLOCKED_DIRS.contains(child.getName())) {
+                    File found = findPyFile(child, name);
+                    if (found != null) return found;
+                }
+            } else if (child.getName().equalsIgnoreCase(name)) {
+                return child;
+            }
+        }
+        return null;
     }
 
     /** 读 sites.json 里的原始站点（不过滤密源、不换地址），供合并时用。 */
