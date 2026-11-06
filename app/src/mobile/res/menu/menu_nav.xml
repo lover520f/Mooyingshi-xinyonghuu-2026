@@ -32,6 +32,12 @@
         android:visible="false" />
 
     <item
+        android:id="@+id/local_source"
+        android:icon="@drawable/ic_nav_local"
+        android:title="@string/local_source"
+        android:visible="true" />
+
+    <item
         android:id="@+id/setting"
         android:icon="@drawable/ic_nav_setting"
         android:title="@string/nav_setting"
