@@ -24,6 +24,8 @@
     <string name="local_source_clear">清空</string>
     <string name="local_source_pick_php_root">PHP 根目錄</string>
     <string name="local_source_secret">密源</string>
+    <string name="local_source_top">頂部</string>
+    <string name="local_source_bottom">底部</string>
     <string name="local_source_scanning">正在掃描…</string>
     <string name="local_source_imported">已匯入 %1$d 個源</string>
     <string name="local_source_deleted">已刪除 %1$d 個源</string>

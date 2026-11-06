@@ -122,6 +122,11 @@ public class LocalSourceDialog extends BaseAlertDialog implements LocalSourceAda
             FileChooser.from(launcher).showDirectory();
         });
         binding.secret.setOnClickListener(v -> toggleSecret());
+        binding.scrollTop.setOnClickListener(v -> binding.sites.scrollToPosition(0));
+        binding.scrollBottom.setOnClickListener(v -> {
+            int count = adapter.getItemCount();
+            if (count > 0) binding.sites.scrollToPosition(count - 1);
+        });
         refreshSecret();
         refreshPhpRoot();
         refreshList();

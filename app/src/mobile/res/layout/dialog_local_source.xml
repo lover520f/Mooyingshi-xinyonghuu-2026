@@ -82,6 +82,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/local_source_pick_dir"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -94,6 +99,11 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_pick_file"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -106,6 +116,11 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_scan_all"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -125,6 +140,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/local_source_select_all"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -137,6 +157,11 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_invert"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -149,6 +174,11 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_remove"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -161,6 +191,11 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_clear"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -180,6 +215,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/local_source_pick_php_root"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
@@ -192,7 +232,53 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/local_source_secret"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:textSize="12sp"
             android:textColor="@color/dialog_outlined_button_text"
+            app:backgroundTint="@color/dialog_outlined_button_bg"
+            app:strokeColor="@color/dialog_outlined_button_stroke" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scrollTop"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:text="@string/local_source_top"
+            android:textColor="@color/dialog_outlined_button_text"
+            android:textSize="12sp"
+            app:backgroundTint="@color/dialog_outlined_button_bg"
+            app:strokeColor="@color/dialog_outlined_button_stroke" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scrollBottom"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:text="@string/local_source_bottom"
+            android:textColor="@color/dialog_outlined_button_text"
+            android:textSize="12sp"
             app:backgroundTint="@color/dialog_outlined_button_bg"
             app:strokeColor="@color/dialog_outlined_button_stroke" />
 

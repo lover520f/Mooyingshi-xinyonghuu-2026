@@ -24,6 +24,8 @@
     <string name="local_source_clear">Clear</string>
     <string name="local_source_pick_php_root">PHP root</string>
     <string name="local_source_secret">Secret</string>
+    <string name="local_source_top">Top</string>
+    <string name="local_source_bottom">Bottom</string>
     <string name="local_source_scanning">Scanning…</string>
     <string name="local_source_imported">Imported %1$d sources</string>
     <string name="local_source_deleted">Deleted %1$d sources</string>
