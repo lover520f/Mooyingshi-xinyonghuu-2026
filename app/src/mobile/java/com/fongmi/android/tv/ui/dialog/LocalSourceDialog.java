@@ -68,6 +68,8 @@ public class LocalSourceDialog extends BaseAlertDialog implements LocalSourceAda
         if (TextUtils.isEmpty(path)) return;
         if (pickMode == PICK_DIR) {
             LocalSource.setScanDir(path);
+            // 第一次选目录就把内置模板写进去，用户在文件夹里能直接按模板写自己的配置。
+            LocalSource.writeTemplate(new File(path));
             scanDir(new File(path));
         } else if (pickMode == PICK_FILE) {
             File file = new File(path);

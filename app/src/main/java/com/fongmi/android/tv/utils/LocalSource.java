@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.fongmi.android.tv.App;
 import com.fongmi.android.tv.bean.Site;
+import com.github.catvod.utils.Asset;
 import com.github.catvod.utils.Json;
 import com.github.catvod.utils.Path;
 import com.google.gson.JsonArray;
@@ -11,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +34,8 @@ public class LocalSource {
 
     /** 扫描收录的文件后缀白名单（与魔影一致）。 */
     public static final List<String> EXTENSIONS = Arrays.asList("wv.js", "cat.js", "xbpq.json", "xyq.json", "php", "html", "js", "py", "json");
+    /** 内置本地源模板的文件名（assets 里的 local_source_template.json，FongMi 官方范例格式）。 */
+    public static final String TEMPLATE_NAME = "local_source_template.json";
     /** 扫描时跳过的目录名（与魔影一致）。 */
     public static final Set<String> BLOCKED_DIRS = new HashSet<>(Arrays.asList("Android", ".thumbnails", "DCIM", "Pictures", "Movies", "Documents", "Music", "Ringtones", "Notifications", "Alarms", "PODCASTS", "Bluetooth", "WhatsApp", "tencent", "WeChat", "QQBrowser", "KuGou", "NetEaseCloudMusic", "Douyin", "Sina", "BaiduNetdisk", "Bilibili", "Logs", "Temp", "pids", "lxserver", "EnvFiles", "danmu_api", "examples", "migu_video", "musicfree", "musicSdk", "data", "controllers", "node_modules", "docs", "config", "lib", "libs", "libs_drpy", "apps", "public", "plugins", "utils", "scripts", "json", "jx", "webdav-files", "webdav", "install", ".github"));
 
@@ -205,6 +209,30 @@ public class LocalSource {
         if (value != null) object.addProperty(key, value);
     }
 
+    /** 读内置的本地源模板（assets 里的 local_source_template.json）。 */
+    public static String getTemplateJson() {
+        try {
+            return Asset.read(TEMPLATE_NAME);
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+
+    /** 把内置模板写到扫描目录里（没有才写），让用户在文件管理器里能直接找到并按模板写自己的配置。 */
+    public static boolean writeTemplate(File dir) {
+        try {
+            if (dir == null || !dir.isDirectory()) return false;
+            File target = new File(dir, TEMPLATE_NAME);
+            if (target.exists()) return false;
+            try (InputStream in = App.get().getAssets().open(TEMPLATE_NAME)) {
+                Path.copy(in, target);
+            }
+            return target.exists();
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
     /** 扫描一个目录（递归），返回新导入的站点数。 */
     public static int scan(File dir) {
         if (dir == null || !dir.isDirectory()) return 0;
@@ -225,7 +253,8 @@ public class LocalSource {
         for (File child : children) {
             if (child.isDirectory()) {
                 if (!BLOCKED_DIRS.contains(child.getName())) collect(child, out);
-            } else if (isSupported(child.getName())) {
+            } else if (!TEMPLATE_NAME.equals(child.getName()) && isSupported(child.getName())) {
+                // 模板文件本身只是格式范例，不当成源扫进来（里面的演示站没有真实文件，会全空）。
                 out.add(child);
             }
         }
