@@ -263,8 +263,8 @@ public class LocalSource {
                 String key = site.getKey();
                 Site old = byKey.get(key);
                 if (old != null && old.getApi().equals(site.getApi())) continue;
-                if (old != null && isStaleCspApi(old.getApi())) {
-                    // 旧条目是坏的 csp_ 写法：直接刷新为新解析的结果，不产生 _1 副本。
+                if (old != null && (isStaleCspApi(old.getApi()) || isUnresolvedRefApi(old.getApi()))) {
+                    // 旧条目是坏的 csp_ 写法或没解析过的相对地址：直接刷新为新解析的结果，不产生 _1 副本。
                     site.setKey(key);
                     byKey.put(key, site);
                     added++;
@@ -289,6 +289,13 @@ public class LocalSource {
     /** 坏的 csp_ 写法：csp_ 开头又不是真的 Jar 蜘蛛类（旧版 .py 扫进来就是这个）。 */
     private static boolean isStaleCspApi(String api) {
         return api != null && api.startsWith("csp_") && !isKnownCspApi(api);
+    }
+
+    /** 没解析过的相对地址（./demo.py、../x.py、裸文件名）：Loader 会把它当脚本源码，全空。 */
+    private static boolean isUnresolvedRefApi(String api) {
+        if (TextUtils.isEmpty(api)) return false;
+        if (api.contains("://") || api.startsWith("csp_") || api.startsWith("assets://")) return false;
+        return true;
     }
 
     /** 修旧版扫进来的 .py 坏条目：api 是 csp_<文件名> 的改回文件地址，ext 清掉。 */
@@ -436,19 +443,57 @@ public class LocalSource {
         try {
             JsonElement element = App.gson().fromJson(Path.read(file), JsonElement.class);
             if (element == null) return result;
-            if (element.isJsonObject() && element.getAsJsonObject().has("sites")) {
-                for (JsonElement item : Json.safeListElement(element.getAsJsonObject(), "sites")) {
+            if (!element.isJsonObject()) return result;
+            JsonObject config = element.getAsJsonObject();
+            // 模板里的 spider/api 都是相对路径（./demo.py、./spider.jar），以配置文件位置为基准；
+            // 不解析就原样传给 Loader，非 http 的 api 会被当成脚本源码，全空。
+            String spider = resolveConfigRef(file, Json.safeString(config, "spider"));
+            if (config.has("sites")) {
+                for (JsonElement item : Json.safeListElement(config, "sites")) {
                     if (!item.isJsonObject()) continue;
                     Site site = siteFromRaw(item.getAsJsonObject());
-                    if (site != null && !site.getKey().isEmpty()) result.add(site);
+                    if (site != null && !site.getKey().isEmpty()) {
+                        resolveSiteRefs(file, site, spider);
+                        result.add(site);
+                    }
                 }
-            } else if (element.isJsonObject() && element.getAsJsonObject().has("key")) {
-                Site site = siteFromRaw(element.getAsJsonObject());
-                if (site != null && !site.getKey().isEmpty()) result.add(site);
+            } else if (config.has("key")) {
+                Site site = siteFromRaw(config);
+                if (site != null && !site.getKey().isEmpty()) {
+                    resolveSiteRefs(file, site, spider);
+                    result.add(site);
+                }
             }
         } catch (Exception ignored) {
         }
         return result;
+    }
+
+    /** 把配置文件里站点的相对地址解析成文件地址（以配置文件所在目录为基准）。 */
+    private static void resolveSiteRefs(File configFile, Site site, String spider) {
+        site.setApi(resolveConfigRef(configFile, site.getApi()));
+        site.setJar(resolveConfigRef(configFile, site.getJar()));
+        site.setHomePage(resolveConfigRef(configFile, site.getHomePage()));
+        // ext 通常是 JSON 选项，只在它长得像相对路径时才解析。
+        String ext = site.getExt();
+        if (!TextUtils.isEmpty(ext) && (ext.startsWith("./") || ext.startsWith("../") || ext.startsWith("/"))) {
+            site.setExt(resolveConfigRef(configFile, ext));
+        }
+        // Java 蜘蛛（csp_ 开头）要靠配置里的 spider.jar，站点自己没写 jar 就用配置的。
+        if (!TextUtils.isEmpty(site.getApi()) && site.getApi().startsWith("csp_")
+                && TextUtils.isEmpty(site.getJar()) && !TextUtils.isEmpty(spider)) {
+            site.setJar(spider);
+        }
+    }
+
+    /** 相对地址 → 文件地址；已有协议（http/file/csp_/assets）的不动。 */
+    private static String resolveConfigRef(File configFile, String ref) {
+        if (TextUtils.isEmpty(ref)) return "";
+        if (ref.contains("://") || ref.startsWith("csp_") || ref.startsWith("assets://")) return ref;
+        if (ref.startsWith("/")) return "file://" + ref;
+        File parent = configFile.getParentFile();
+        if (parent == null) return ref;
+        return "file://" + new File(parent, ref).toPath().normalize().toString();
     }
 
     private static String fileUrl(File file) {
