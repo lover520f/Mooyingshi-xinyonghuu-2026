@@ -329,7 +329,9 @@ public class LocalSource {
             site.setQuickSearch(0);
             result.add(site);
         } else if ("py".equals(extension(lower))) {
-            result.add(newSite(base, display, 3, "csp_" + base, fileUrl(file), ""));
+            // 魔影同款：api 必须是文件地址（含 .py），BaseLoader 才走 PyLoader；
+            // 之前写成 csp_<文件名> 会被当成 Java 蜘蛛走 JarLoader，类不存在就全空。
+            result.add(newSite(base, display, 3, fileUrl(file), "", ""));
         } else if ("html".equals(extension(lower))) {
             result.add(newSite(base, display, 3, fileUrl(file), fileUrl(file), ""));
         } else if ("json".equals(extension(lower)) || "txt".equals(extension(lower))) {
